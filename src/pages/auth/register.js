@@ -30,7 +30,8 @@ const Register = () => {
 
   const {
     errMessage,
-    success: apiSuccess
+    success: apiSuccess,
+    loading
   } = useSelector((state) => state.auth);
 
   const roles = [
@@ -222,7 +223,7 @@ const Register = () => {
               fullWidth
               variant="contained"
               size="large"
-              disabled={isLoading}
+              disabled={loading}
               sx={{
                 py: 1.5,
                 mb: 2,
@@ -231,7 +232,7 @@ const Register = () => {
                 '&:disabled': { bgcolor: '#e0e0e0' }
               }}
             >
-              {isLoading ? 'Registering...' : 'Sign Up'}
+              {loading ? 'Registering...' : 'Sign Up'}
             </Button>
             <Stack direction="row" justifyContent="center" spacing={1}>
               <Typography variant="body2" color="text.secondary">

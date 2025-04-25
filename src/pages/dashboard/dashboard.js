@@ -34,7 +34,7 @@ import { AddNewTrip, GetAllTrips } from '../../redux/slice/trip';
 const EmployeeDashboard = () => {
 
   const { user: loggedUser } = useSelector((state) => state.auth);
-  const { trips: userTrips } = useSelector((state) => state.trip);
+  const { trips: userTrips, loading } = useSelector((state) => state.trip);
 
   console.log({ userTrips });
 
@@ -82,6 +82,7 @@ const EmployeeDashboard = () => {
         credits: newCredits,
         proof: tripData.proof?.name || null
       }));
+
       setTripData({
         distance: '',
         transportMode: 'bus',
@@ -114,10 +115,11 @@ const EmployeeDashboard = () => {
 
   console.log({ loggedUser });
   useEffect(() => {
-    dispatch(GetAllTrips({
-      userId: loggedUser?.userId
-    }));
-  }, [tripData]);
+    if (loggedUser?.userId) {
+      dispatch(GetAllTrips({ userId: loggedUser.userId }));
+    }
+  }, [dispatch, loggedUser?.userId]);
+  
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f9fafb' }}>
@@ -234,7 +236,7 @@ const EmployeeDashboard = () => {
                   >
                     Log New Trip
                   </Typography>
-                  <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
+                    <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
                     <Box sx={{ flex: 1 }}>
                       <TextField
                         fullWidth
@@ -391,7 +393,7 @@ const EmployeeDashboard = () => {
                     >
                       {isSubmitting ? <CircularProgress size={24} /> : 'Submit Trip'}
                     </Button>
-                  </form>
+                    </form>
                 </Card>
               </Grid>
 
@@ -412,7 +414,11 @@ const EmployeeDashboard = () => {
                   >
                     Recent Trips
                   </Typography>
-                  <Box
+                  {loading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
+                      <CircularProgress />
+                    </Box>
+                  ) : (<Box
                     sx={{
                       display: 'flex',
                       overflowX: 'auto',
@@ -505,6 +511,7 @@ const EmployeeDashboard = () => {
                       </Card>
                     ))}
                   </Box>
+                )}
                 </Card>
               </Grid>
             </Grid>

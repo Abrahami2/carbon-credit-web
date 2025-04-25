@@ -107,7 +107,8 @@ const trip = createSlice({
           ...state,
           success: true,
           loading: false,
-          message: action.payload.message
+          message: action.payload.message,
+          trips: action.payload.trips
         };
       })
       .addCase(AddNewTrip.rejected, (state, action) => ({

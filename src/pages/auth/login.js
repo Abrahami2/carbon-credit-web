@@ -27,7 +27,8 @@ const Login = () => {
 
   const {
     errMessage,
-    success: apiSuccess
+    success: apiSuccess,
+    loading
   } = useSelector((state) => state.auth);
 
   console.log({ 
@@ -147,7 +148,7 @@ const Login = () => {
               fullWidth
               variant="contained"
               size="large"
-              disabled={isLoading}
+              disabled={loading}
               sx={{
                 py: 1.5,
                 mb: 2,
@@ -156,7 +157,7 @@ const Login = () => {
                 '&:disabled': { bgcolor: '#e0e0e0' }
               }}
             >
-              {isLoading ? 'Signing In...' : 'Sign In'}
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
             <Stack direction="row" justifyContent="center" spacing={1}>
               <Typography variant="body2" color="text.secondary">
